@@ -66,11 +66,11 @@ $(function() {
      */
     it('changes when icon is clicked', function() {
       /* Trigger mimics click on the menuIcon selected class */
-      menuIcon.trigger('click');
+      menuIcon.click();
       /* The first click should result in menu-hidden being removed */
       expect(body.hasClass('menu-hidden')).toBe(false);
       /* A second mimicked click on menuIcon */
-      menuIcon.trigger('click');
+      menuIcon.click();
       /* The menu-hidden class should be re-added */
       expect(body.hasClass('menu-hidden')).toBe(true);
     });
