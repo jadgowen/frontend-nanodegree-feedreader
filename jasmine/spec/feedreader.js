@@ -30,9 +30,9 @@ $(function() {
      * and that the URL is not empty.
      */
     it('URLs are defined', function() {
-      for(let feed of allFeeds) {
-        expect(feed.url).toBeDefined();
-        expect(feed.url.length).not.toBe(0);
+      for(i = 0; i < allFeeds.length; i++) {
+        expect(allFeeds[i].url).toBeDefined();
+        expect(allFeeds[i].url.length).not.toBe(0);
       };
     });
 
@@ -41,9 +41,9 @@ $(function() {
      * and that the name is not empty.
      */
     it('Names are defined', function() {
-      for(let feed of allFeeds) {
-        expect(feed.name).toBeDefined();
-        expect(feed.name.length).not.toBe(0);
+      for(i = 0; i < allFeeds.length; i++) {
+        expect(allFeeds[i].name).toBeDefined();
+        expect(allFeeds[i].name.length).not.toBe(0);
       };
     });
   });
