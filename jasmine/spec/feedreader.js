@@ -10,10 +10,10 @@
  */
 $(function() {
 
-    /* This is our first test suite - a test suite just contains
-    * a related set of tests. This suite is all about the RSS
-    * feeds definitions, the allFeeds variable in our application.
-    */
+  /* This is our first test suite - a test suite just contains
+   * a related set of tests. This suite is all about the RSS
+   * feeds definitions, the allFeeds variable in our application.
+   */
   describe('RSS Feeds', function() {
 
     /* This is our first test - it tests to make sure that the
@@ -49,66 +49,79 @@ $(function() {
   });
 
 
-    /* This suite contains testing for the sidebar menu functionality  */
-    describe('The menu', function() {
-      const body = $('body'),
-            menuIcon = $('.menu-icon-link');
+  /* This suite contains testing for the sidebar menu functionality  */
+  describe('The menu', function() {
+    const body = $('body'),
+          menuIcon = $('.menu-icon-link');
 
-      /* This is a test that ensures the menu is
-       * hidden by default.
-       */
-      it('is hidden by default', function() {
-        expect(body.hasClass('menu-hidden')).toBe(true);
-      });
-         /* This is a test that ensures the menu changes
-          * visibility when the menu icon is clicked.
-          */
-      it('changes when icon is clicked', function() {
-        menuIcon.trigger('click');
-        expect(body.hasClass('menu-hidden')).toBe(false);
-        menuIcon.trigger('click');
-        expect(body.hasClass('menu-hidden')).toBe(true);
-      });
-    });
-
-    /* This suite contains testing for initial entries in the feed */
-    describe('Initial Entries', function() {
-
-      /* This is a test that ensures when the loadFeed
-       * function is called and completes its work, there is at least
-       * a single .entry element within the .feed container.
-       */
-      beforeEach(function(done) {
-        loadFeed(0, done);
-      });
-
-      it('There is at least one entry in the feed container', function() {
-        expect($('.entry .feed')).toBeDefined();
-      });
-    });
-
-    /* This suite verifies the new feed array values are unique to the
-     * previous array.
+    /* This is a test that ensures the menu is
+     * hidden by default.
      */
-    describe('New Feed Selection', function() {
-      const feed = document.querySelector('.feed');
-      const firstFeed = [];
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
-      beforeEach(function(done) {
-        loadFeed(0);
-        Array.from(feed.children).forEach(function(entry) {
-            firstFeed.push(entry.innerText);
-        });
-        loadFeed(1, done);
-      });
+    it('is hidden by default', function() {
+      expect(body.hasClass('menu-hidden')).toBe(true);
+    });
 
-      it('The Feed Selection Is New', function() {
-        Array.from(feed.children).forEach(function(entry,index){
-          expect(entry.innerText === firstFeed[index]).toBe(false);
-        });
+    /* This is a test that ensures the menu changes
+     * visibility when the menu icon is clicked.
+     */
+    it('changes when icon is clicked', function() {
+      /* Trigger mimics click on the menuIcon selected class */
+      menuIcon.trigger('click');
+      /* The first click should result in menu-hidden being removed */
+      expect(body.hasClass('menu-hidden')).toBe(false);
+      /* A second mimicked click on menuIcon */
+      menuIcon.trigger('click');
+      /* The menu-hidden class should be re-added */
+      expect(body.hasClass('menu-hidden')).toBe(true);
+    });
+  });
+
+  /* This suite contains testing for initial entries in the feed */
+  describe('Initial Entries', function() {
+
+    /* This is a test that ensures when the loadFeed
+     * function is called and completes its work, there is at least
+     * a single .entry element within the .feed container.
+     */
+    beforeEach(function(done) {
+      /* Ensures the feed has been loaded before testing */
+      loadFeed(0, done);
+    });
+
+    it('There is at least one entry in the feed container', function() {
+      /* Verified length of entry in feed is not equal to 0 */
+      expect($('.entry, .feed').length).not.toEqual(0);
+    });
+  });
+
+  /* This suite verifies the new feed array values are unique to the
+   * previous array. Inspired by Matthew Cranford and his Udacity-provided walkthrough
+   * https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/
+   */
+  describe('New Feed Selection', function() {
+    const feed = $('.feed')[0],
+          firstFeed = [];
+
+    /* This is a test that ensures when a new feed is loaded
+     * by the loadFeed function that the content actually changes.
+     */
+    beforeEach(function(done) {
+      /* Runs the feed loading function */
+      loadFeed(0);
+      /* Pushes each entry into the firstFeed array */
+      Array.from(feed.children).forEach(function(e) {
+          firstFeed.push(e.innerText);
+      });
+      /* Runs the feed loading function again and provides callback */
+      loadFeed(1, done);
+    });
+
+    it('The Feed Selection Is New', function() {
+      /* Takes value of new feed and corresponding index */
+      Array.from(feed.children).forEach(function(e,i){
+        /* Compares current feed innerText against firstFeed array values by index */
+        expect(e.innerText === firstFeed[i]).toBe(false);
       });
     });
+  });
 }());
