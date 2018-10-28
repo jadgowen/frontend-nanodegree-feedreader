@@ -90,7 +90,7 @@ $(function() {
 
     it('There is at least one entry in the feed container', function() {
       /* Verified length of entry in feed is not equal to 0 */
-      expect($('.entry, .feed').length).not.toEqual(0);
+      expect($('.feed, .entry').length).not.toEqual(0);
     });
   });
 
